@@ -71,7 +71,9 @@
   };
 
   const buildHTML = async () => {
+    console.log('builhtml başladı');
     let productsData = [];
+
     if (localStorage.getItem('products')) {
       productsData = JSON.parse(localStorage.getItem('products'));
     } else {
@@ -88,7 +90,7 @@
         console.error('Ürünler yüklenirken hata oluştu:', error);
       }
     }
-
+    console.log('buildHtml verisi :', productsData);
     const appElement = document.createElement('div');
     appElement.id = 'app';
 
@@ -119,6 +121,7 @@
 
     appElement.appendChild(sliderWrapper);
     document.body.appendChild(appElement);
+    console.log('buildhtml tamamlandı');
   };
 
   const buildCSS = () => {
@@ -443,13 +446,10 @@
     document.querySelectorAll('.product_add_to_cart').forEach((button) => {
       button.addEventListener('click', (event) => {
         event.stopPropagation();
+
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        if (
-          !cart.includes(
-            button.parentElement.parentElement.getAttribute('data-id')
-          )
-        ) {
-          cart.push(button.parentElement.parentElement.getAttribute('data-id'));
+        if (!cart.includes(button.parentElement.getAttribute('data-id'))) {
+          cart.push(button.parentElement.getAttribute('data-id'));
           localStorage.setItem('cart', JSON.stringify(cart));
           alert('Ürün sepete eklendi!');
         } else {
@@ -502,9 +502,9 @@
     });
   };
 
-  if (window.location.pathname != '/') {
-    console.log('wrong page');
-    return;
-  }
+  //if (window.location.pathname != '/') {
+  //console.log('wrong page');
+  //return;
+  //}
   init();
 })();
